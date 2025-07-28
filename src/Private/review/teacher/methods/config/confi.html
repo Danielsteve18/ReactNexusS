@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración de Perfil</title>
+
+  <!-- Firebase App (necesario para todos los servicios de Firebase) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+  
+  <!-- Firebase Auth (para autenticación de usuarios) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+  
+  <!-- Firebase Storage (para almacenar archivos) -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+  <link rel="stylesheet" href="confi.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <!-- Google Fonts -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  
+
+  <!-- Script para manejar la funcionalidad de subida -->
+  <script type="module" src="confi.js"></script> 
+   <!-- Script para manejar el cambio de vistas -->
+  <script> function showSection(sectionId) {
+    // Ocultar todas las secciones dinámicas
+    const sections = document.getElementsByClassName('content-section');
+    for (let section of sections) {
+      section.classList.remove('active');
+      section.style.display = 'none'; // Ocultar todas las secciones
+    }
+  
+    // Mostrar la sección seleccionada
+    const selectedSection = document.getElementById(sectionId);
+    if (selectedSection) {
+      selectedSection.classList.add('active');
+      selectedSection.style.display = 'block'; // Mostrar la sección seleccionada
+    }
+  
+    // Ocultar el contenido principal si se cambia de sección
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) {
+      mainContent.classList.add('hidden');
+    }
+  }
+  
+</script>
+
+  
+  <script type="module" src="nmedinfo.js"></script>
+  <script type="module" src="cambioc.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+Aos animations
+    data-aos: Define el tipo de animación a aplicar (por ejemplo, fade, slide, zoom, etc.).
+
+    data-aos-duration: Establece la duración de la animación en milisegundos.
+
+    data-aos-delay: Define un retraso en milisegundos antes de que comience la animación.
+
+    data-aos-easing: Especifica el tipo de easing para la animación (por ejemplo, ease-in, ease-out).
+
+    data-aos-offset: Controla el desplazamiento en píxeles desde el borde del viewport donde se activa la animación.
+
+    data-aos-anchor: Vincula la animación a un elemento específico en la página.
+
+    data-aos-once: Si se establece en "true", la animación solo se ejecutará una vez.
+
+    data-aos-anchor-placement: Controla la posición del elemento de anclaje en relación con el viewport.
+
+    data-aos-trigger: Define un elemento que activa la animación cuando entra en la vista.
+
+    data-aos-skip: Permite omitir la animación si se establece en "true".
+
+Implementacion
+    <!-- Descripciones de las animaciones AOS -->
+
+<div data-aos="fade">Desvanece el elemento.</div>
+
+<div data-aos="fade-down">Desvanece el elemento hacia abajo.</div>
+
+<div data-aos="fade-down-left">Desvanece el elemento hacia abajo a la izquierda.</div>
+
+<div data-aos="fade-down-right">Desvanece el elemento hacia abajo a la derecha.</div>
+
+<div data-aos="fade-left">Desvanece el elemento hacia la izquierda.</div>
+
+<div data-aos="fade-right">Desvanece el elemento hacia la derecha.</div>
+
+<div data-aos="fade-up">Desvanece el elemento hacia arriba.</div>
+
+<div data-aos="fade-up-left">Desvanece el elemento hacia arriba a la izquierda.</div>
+
+<div data-aos="fade-up-right">Desvanece el elemento hacia arriba a la derecha.</div>
+
+<div data-aos="flip-left">Gira el elemento hacia la izquierda.</div>
+
+<div data-aos="flip-right">Gira el elemento hacia la derecha.</div>
+
+<div data-aos="flip-up">Gira el elemento hacia arriba.</div>
+
+<div data-aos="zoom-in">Aumenta el tamaño del elemento.</div>
+
+<div data-aos="zoom-in-up">Aumenta el tamaño del elemento hacia arriba.</div>
+
+<div data-aos="zoom-in-down">Aumenta el tamaño del elemento hacia abajo.</div>
+
+<div data-aos="zoom-out">Disminuye el tamaño del elemento.</div>
+
+<div data-aos="slide-up">Desliza el elemento hacia arriba.</div>
+
+<div data-aos="slide-down">Desliza el elemento hacia abajo.</div>
+
+<div data-aos="slide-left">Desliza el elemento hacia la izquierda.</div>
+
+<div data-aos="slide-right">Desliza el elemento hacia la derecha.</div>

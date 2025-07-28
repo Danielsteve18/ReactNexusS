@@ -1,0 +1,43 @@
+Etiquetas anexables al Swal.fire
+    title: Define el título de la alerta.
+
+text: Contenido del mensaje.
+
+icon: Tipo de alerta (success, error, warning, info, question).
+
+showCancelButton: Muestra un botón de cancelar.
+
+confirmButtonText: Texto del botón de confirmación.
+
+cancelButtonText: Texto del botón de cancelación.
+
+timer: Tiempo antes de que la alerta se cierre automáticamente.
+
+input: Permite agregar un campo de entrada (text, email, password, etc.).
+
+customClass: Personaliza estilos con clases CSS.
+
+background: Cambia el fondo de la alerta.
+
+position: Ubicación de la alerta (top, center, bottom).
+
+showCloseButton: Agrega un botón para cerrar la alerta.
+
+allowOutsideClick: Permite cerrar la alerta haciendo clic fuera de ella.
+
+allowEscapeKey: Permite cerrar la alerta con la tecla Esc.
+
+footer: Agrega contenido en la parte inferior de la alerta.
+
+imageUrl: Muestra una imagen dentro de la alerta.
+
+imageWidth y imageHeight: Ajustan el tamaño de la imagen.
+
+inputPlaceholder: Texto de ayuda dentro del campo de entrada.
+
+inputValue: Valor inicial del campo de entrada.
+
+inputValidator: Función para validar el contenido del campo de entrada.
+
+    recurso grafico
+https://parzibyte.me/blog/2019/12/16/sweet-alert-2-tutorial-ejemplos/

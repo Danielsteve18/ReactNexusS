@@ -1,0 +1,91 @@
+/* Seccion dev*/
+.C_devp{
+    min-height: 100vh;
+    
+    padding: 12vh 10vw 10vh 10vw; /* arriba, derecha, abajo, izquierda */
+}
+
+.devpONE{
+    box-shadow: 5px 10px 15px 5px #36c2b3;
+    border-radius: 20px;
+    margin-top: 15px;
+    width: 80vw;
+    
+    
+}
+
+.devNames{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 8px;
+    font-family: "Dancing Script";
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5); /* Sombra */
+    border-radius: 10px;
+    
+    
+}
+
+.S{
+    margin-left: 5vw;
+    grid-column: span 2 / span 2;
+}
+.D{
+    grid-column: span 2 / span 2;
+    grid-column-start: 4;
+}
+
+.C_sd{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    gap: 18px;
+    font-family: "Dancing Script";
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5); /* Sombra */
+    border-radius: 10px;
+}
+.Salazar{
+    margin-top: 20px;
+    grid-column: span 1 / span 1;
+    grid-row: span 2 / span 2;
+}
+.Montaño{
+    margin-top: 80px;
+    grid-column: span 1 / span 1;
+    grid-row: span 2 / span 2;
+    grid-column-start: 2;
+
+}
+.dev_center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}   
+.h2_dev{
+    font-family: "Dancing Script";
+    font-size: 20px;
+    color: #36c2b3;
+    text-align: center;
+    margin-top: 20px;
+}
+.span_dev{
+    text-shadow: 1px 2px 3px #36c2b3;
+    font-family: "Dancing Script";
+    color:black;
+}
+.p_dev{
+    padding: 0.5px 0px 0.5px 3px;
+    font-family: "Dancing Script";
+    font-size: 17px;
+    color: white;
+    text-shadow: 0.5px 1px 2px #36c2b3;
+    text-align: center;
+
+}
+.img_dev{
+    
+    width: 20vw;
+    height: 20vh;
+}
+/*fin seccion dev*/

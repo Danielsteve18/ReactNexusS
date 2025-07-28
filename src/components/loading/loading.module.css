@@ -1,0 +1,94 @@
+.All {
+    width: 100%; /* 100% del ancho del viewport */
+    height: 100%; /* 100% de la altura del viewport */
+    background-image: linear-gradient(135deg, #ffffff 0%, #36c2b3 100%);
+    box-shadow: 0 20px 30px -6px #36c2b3;
+  }
+  
+.newtons_cradle {
+    --uib-size: 300px;
+    --uib-speed: 1.2s;
+    --uib-color:#21534f ;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--uib-size);
+    height: var(--uib-size);
+    margin-left: 39%;
+    margin-top: 14%;
+    
+   }
+.newtons_cradle::before {
+    font-family: 'Poppins', sans-serif;
+    content: "Cargando...";
+    color: #000000;
+    font-weight: bold;
+    position: absolute;
+    top: 222px;
+    left: 98px; 
+    transform: perspective(200px)
+                rotateX(40deg)
+                scale(1.2);
+}
+   
+   .newtons_cradle__dot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 25%;
+    transform-origin: center top;
+   }
+   
+   .newtons_cradle__dot::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 25%;
+    border-radius: 50%;
+    background-color: var(--uib-color);
+   }
+   
+   .newtons_cradle__dot:first-child {
+    animation: swing var(--uib-speed) linear infinite;
+   }
+   
+   .newtons_cradle__dot:last-child {
+    animation: swing2 var(--uib-speed) linear infinite;
+   }
+   
+   @keyframes swing {
+    0% {
+     transform: rotate(0deg);
+     animation-timing-function: ease-out;
+    }
+   
+    25% {
+     transform: rotate(70deg);
+     animation-timing-function: ease-in;
+    }
+   
+    50% {
+     transform: rotate(0deg);
+     animation-timing-function: linear;
+    }
+   }
+   
+   @keyframes swing2 {
+    0% {
+     transform: rotate(0deg);
+     animation-timing-function: linear;
+    }
+   
+    50% {
+     transform: rotate(0deg);
+     animation-timing-function: ease-out;
+    }
+   
+    75% {
+     transform: rotate(-70deg);
+     animation-timing-function: ease-in;
+    }
+   }
+   

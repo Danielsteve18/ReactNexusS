@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="aula.css">
+  <title>Aula Virtual - Nexus</title>
+ 
+</head>
+<body>
+  
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc, arrayUnion, arrayRemove, query, where } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
+      authDomain: "nexus-5c53d.firebaseapp.com",
+      projectId: "nexus-5c53d",
+      storageBucket: "nexus-5c53d.appspot.com",
+      messagingSenderId: "208164583979",
+      appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
+      measurementId: "G-WENGRWS7N9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseName = urlParams.get('course');
+
+    if (!courseName) {
+      alert("No se ha encontrado el nombre del curso.");
+      throw new Error("Falta el parámetro 'course' en la URL.");
+    }
+
+    async function fetchCourseData() {
+      const querySnapshot = await getDocs(collection(db, "aula"));
+      const courses = [];
+      querySnapshot.forEach(doc => {
+        const data = doc.data();
+        if (data.courseName === courseName) {
+          courses.push({ id: doc.id, ...data });
+        }
+      });
+      return courses;
+    }
+
+    async function renderCourseContent() {
+      const contentDiv = document.getElementById("course-content");
+      contentDiv.innerHTML = "";
+
+      const courses = await fetchCourseData();
+
+      courses.forEach(course => {
+        (course.folders || []).forEach(folder => {
+          const folderDiv = document.createElement("div");
+          folderDiv.classList.add("folder");
+
+          const header = document.createElement("div");
+          header.classList.add("folder-header");
+          header.innerHTML = `
+            <span>${folder.name}</span>
+            <button class="btn-delete">Eliminar Carpeta</button>
+            <button class="btn-add-content">Agregar Contenido</button>
+          `;
+          header.querySelector(".btn-delete").addEventListener("click", async () => {
+            if (confirm("¿Estás seguro de que deseas eliminar esta carpeta?")) {
+              await updateDoc(doc(db, "aula", course.id), {
+                folders: arrayRemove(folder)
+              });
+              renderCourseContent();
+            }
+          });
+          header.querySelector(".btn-add-content").addEventListener("click", () => {
+            const contentName = prompt("Ingrese el nombre del contenido:");
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.onchange = async () => {
+              const file = fileInput.files[0];
+              if (file) {
+                const storageRef = ref(storage, `cursos/${courseName}/${folder.name}/${file.name}`);
+                await uploadBytes(storageRef, file);
+                const fileURL = await getDownloadURL(storageRef);
+                const updatedFolders = course.folders.map(f => {
+                  if (f.name === folder.name) {
+                    return {
+                      ...f,
+                      contents: [...(f.contents || []), { name: contentName, fileURL }]
+                    };
+                  }
+                  return f;
+                });
+                await updateDoc(doc(db, "aula", course.id), {
+                  folders: updatedFolders
+                });
+                renderCourseContent();
+              }
+            };
+            fileInput.click();
+          });
+          header.addEventListener("click", (event) => {
+            if (event.target.tagName !== "BUTTON") {
+              const subfolders = folderDiv.querySelector(".subfolders");
+              subfolders.style.display = subfolders.style.display === "none" ? "block" : "none";
+            }
+          });
+          folderDiv.appendChild(header);
+
+          const subfolderList = document.createElement("ul");
+          subfolderList.classList.add("subfolders");
+          (folder.subfolders || []).forEach(sub => {
+            const li = document.createElement("li");
+            li.textContent = sub;
+            li.addEventListener("click", (event) => {
+              event.stopPropagation();
+              const contents = li.querySelector(".contents");
+              contents.style.display = contents.style.display === "none" ? "block" : "none";
+            });
+            subfolderList.appendChild(li);
+
+            const contentList = document.createElement("ul");
+            contentList.classList.add("contents");
+            (folder.contents || []).forEach(content => {
+              const contentLi = document.createElement("li");
+
+              // Crear enlace de descarga
+              const link = document.createElement("a");
+              link.textContent = content.name; // Nombre del archivo
+              link.href = content.fileURL; // URL del archivo subido
+              link.target = "_blank"; // Abre en una nueva pestaña
+              link.rel = "noopener noreferrer"; // Seguridad adicional
+              link.download = content.name; // Permite descargar el archivo
+
+              // Botón para eliminar contenido
+              const deleteBtn = document.createElement("button");
+              deleteBtn.textContent = "Eliminar";
+              deleteBtn.classList.add("btn-delete");
+              deleteBtn.addEventListener("click", async () => {
+                if (confirm("¿Estás seguro de que deseas eliminar este contenido?")) {
+                  const updatedFolders = course.folders.map(f => {
+                    if (f.name === folder.name) {
+                      return {
+                        ...f,
+                        contents: f.contents.filter(c => c.name !== content.name)
+                      };
+                    }
+                    return f;
+                  });
+                  await updateDoc(doc(db, "aula", course.id), {
+                    folders: updatedFolders
+                  });
+                  renderCourseContent();
+                }
+              });
+
+              contentLi.appendChild(link);
+              contentLi.appendChild(deleteBtn);
+              contentList.appendChild(contentLi);
+            });
+            li.appendChild(contentList);
+          });
+          folderDiv.appendChild(subfolderList);
+
+          contentDiv.appendChild(folderDiv);
+        });
+      });
+    }
+
+    async function loadStudents(courseName) {
+      const studentsContent = document.getElementById("students-content");
+      studentsContent.innerHTML = "<p>Cargando estudiantes...</p>"; // Indicador de carga
+
+      const clasesRef = collection(db, "clases");
+      const q = query(clasesRef, where("convocatoria", "==", courseName)); // Comparar con el campo 'convocatoria'
+      const querySnapshot = await getDocs(q);
+
+      studentsContent.innerHTML = ""; // Limpiar la vista principal
+
+      if (!querySnapshot.empty) {
+        const studentsList = document.createElement("div");
+        studentsList.className = "students-list";
+
+        querySnapshot.forEach((doc) => {
+          const claseData = doc.data();
+          const studentItem = document.createElement("div");
+          studentItem.className = "student-item";
+          studentItem.innerHTML = `
+            <p><strong>Nombre:</strong> ${claseData.studentName}</p>
+            <p><strong>ID:</strong> ${claseData.userId}</p>
+            <button class="btn-delete-student">Eliminar</button>
+          `;
+          studentsList.appendChild(studentItem);
+
+          // Evento para eliminar estudiante
+          studentItem.querySelector(".btn-delete-student").addEventListener("click", async () => {
+            if (confirm("¿Estás seguro de que deseas eliminar este estudiante?")) {
+              await deleteDoc(doc(db, "clases", doc.id));
+              studentItem.remove();
+            }
+          });
+        });
+
+        studentsContent.appendChild(studentsList);
+      } else {
+        studentsContent.innerHTML = "<p>No hay estudiantes asociados a esta convocatoria.</p>";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", renderCourseContent);
+
+    document.getElementById("view-folders").addEventListener("click", () => {
+      document.getElementById("folders-section").style.display = "block";
+      document.getElementById("grades-section").style.display = "none";
+      document.getElementById("students-section").style.display = "none";
+      document.getElementById("pending-section").style.display = "none";
+    });
+
+    document.getElementById("view-grades").addEventListener("click", () => {
+      document.getElementById("folders-section").style.display = "none";
+      document.getElementById("grades-section").style.display = "block";
+      document.getElementById("students-section").style.display = "none";
+      document.getElementById("pending-section").style.display = "none";
+    });
+
+    document.getElementById("view-students").addEventListener("click", () => {
+      document.getElementById("folders-section").style.display = "none";
+      document.getElementById("grades-section").style.display = "none";
+      document.getElementById("students-section").style.display = "block";
+      document.getElementById("pending-section").style.display = "none";
+      loadStudents(courseName); // Cargar estudiantes al hacer clic en "Ver Alumnos"
+    });
+
+    document.getElementById("view-pending").addEventListener("click", () => {
+      document.getElementById("folders-section").style.display = "none";
+      document.getElementById("grades-section").style.display = "none";
+      document.getElementById("students-section").style.display = "none";
+      document.getElementById("pending-section").style.display = "block";
+    });
+  </script>
+  <script type="module" src="aula.js"></script>
+
+</body>
+</html>
