@@ -9,12 +9,10 @@ function RegisterForm() {
   
   const navigate = useNavigate(); 
   const [registerForm, setRegisterForm] = useState({Name:"", correo: "", contraseña: "" });
- 
 
   const handleLoginChange = (e) => {
     setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
   };
- const navegar= (e) => navigate('/login-form');
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault(); // Evitar el comportamiento predeterminado del formulario
@@ -23,46 +21,39 @@ function RegisterForm() {
       const userCredentials = { nombre: registerForm.Name, correo: registerForm.correo, contraseña: registerForm.contraseña };
       const response = await registerUser(userCredentials);
       
-      if (response){
-      Swal.fire({
-          title: "Bienvenido a NEXUS",
-          text: `Tu nombre es: ${localStorage.getItem("nombre")}
-           Preciona "oK" para iniciar seccion`,
+      if (response.success) {
+        // Registro exitoso
+        Swal.fire({
+          title: "¡Bienvenido a NEXUS!",
+          text: `Tu nombre es: ${localStorage.getItem("nombre")}. Presiona "OK" para seleccionar tu rol.`,
           icon: "success",
-          confirmButtonText: `OK ${navegar}`, 
-      });
-    } else if (!response){
-      Swal.fire({
-        title: "Credenciales existentes",
-        text: "Ingresa con nuvas, credenciales.",
-        icon: "error",
-        confirmButtonText: "OK"
-    });
-
-    } else{
-      Swal.fire({
-        title: "Vuelve a interalo",
-        text:"error en el registro",
-        icon: "error",
-        confirmButtonText: "OK"
-      });
-    }
-      
-       // Limpia el formulario después de un login exitoso
-       setRegisterForm({ correo: "", contraseña: "" });
-          
+          confirmButtonText: "OK"
+        }).then(() => {
+          // Redirigir a la selección de rol
+          navigate('/view-rol');
+        });
+        
+        // Limpia el formulario después de un registro exitoso
+        setRegisterForm({ Name: "", correo: "", contraseña: "" });
+        
+      } else {
+        // Error en el registro
+        Swal.fire({
+          title: response.error === 'email-already-in-use' ? "Correo ya registrado" : "Error en el registro",
+          text: response.message,
+          icon: "error",
+          confirmButtonText: "OK"
+        });
+      }
 
     } catch (error) {
       Swal.fire({
         title: "Error",
-        text: error.message,
+        text: error.message || "Ocurrió un error inesperado",
         icon: "error",
         confirmButtonText: "OK",
       });
     }
-
-    // Limpia el formulario
-    setRegisterForm({Name: "", correo: "", contraseña: "" });
   };
 
  

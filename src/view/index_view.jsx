@@ -4,7 +4,7 @@ import { lazy } from 'react';
 const Home = lazy(() => import('./home/Index'));
 const Login = lazy(() => import('./auth/AuthForm'));
 const Register = lazy(() => import('./auth/register/register'));
-const Rol = lazy(() => import('./rol/rol'));
+const Rol = lazy(() => import('./Rol/rol'));
 const NotFound = lazy(() => import('./error/NotFound'));
 
 // Exportaciones

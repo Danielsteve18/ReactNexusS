@@ -51,18 +51,21 @@ export const AuthFormlog= async({correo, contraseña}) =>{
 
         if (userDoc.exists() && userDoc.data().role) {
             var role = userDoc.data().role;
+            
+            // Guardar rol en localStorage para persistencia
+            localStorage.setItem('userRole', role);
+            localStorage.setItem('userId', user.uid);
+            
             // Redirigir según el rol
             if (role === "profesor") {
                 window.location.href = '/view-teachers';
-;
             } else if (role === "student") {
                 window.location.href = '/view-students';
-;
             }
         } else {
             // Si no tiene rol, redirigir a la página de selección de roles
+            localStorage.setItem('userId', user.uid);
             window.location.href = '/view-rol';
-;
         }
     } catch (error) {
         const errorCode = error.code;

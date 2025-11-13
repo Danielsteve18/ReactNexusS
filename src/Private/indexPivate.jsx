@@ -16,13 +16,23 @@ import { lazy } from 'react';
 
      // Fin profesor
 
+    // Componentes compartidos
+    const Activity = lazy(() => import('./review/shared/Activity')); // Actividad
+    const Convocatorias = lazy(() => import('./review/shared/Convocatorias')); // Convocatorias
+    const NewCourse = lazy(() => import('./review/shared/NewCourse')); // Nuevo Curso
+    const GestionCursos = lazy(() => import('./review/teacher/GestionCursos')); // Gestión de cursos (profesor)
+
 // Exportaciones
 export {
     Estudents,
     Teachers,
     Foro,
     A_virtual,
-    Config
+    Config,
+    Activity,
+    Convocatorias,
+    NewCourse,
+    GestionCursos
 };
 
 
