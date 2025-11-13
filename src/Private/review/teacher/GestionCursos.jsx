@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Style from "../shared/shared.module.css";
 import { Barra_Left } from "../../../components/indexC";
 import { 
@@ -9,18 +10,10 @@ import {
 } from "../../../firebase/services/cursos";
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/config';
-
-const profesorItems = [
-    { href: "/view-foro", content: "Foros" },
-    { href: "/view-config", content: "Configuraciones" },
-    { href: "/view-activity", content: "Actividad" },
-    { href: "/view-convocatorias", content: "Convocatorias" },
-    { href: "/clean-convocatorias", content: "Limpiar Datos" },
-    { href: "/view-cursos", content: "Mis Cursos" },
-    { href: "/view-aVirtual", content: "Aula Virtual" },
-];
+import { profesorMenuItems } from '../../../utils/menuItems';
 
 function GestionCursos() {
+    const navigate = useNavigate();
     const [cursos, setCursos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -142,7 +135,7 @@ function GestionCursos() {
 
     return (
         <div className={Style.container}>
-            <Barra_Left items={profesorItems} />
+            <Barra_Left items={profesorMenuItems} />
             
             <div className={Style.content}>
                 <div className={Style.header}>
@@ -231,9 +224,9 @@ function GestionCursos() {
                                         <div className={Style.cardActions}>
                                             <button 
                                                 className={Style.viewBtn}
-                                                onClick={() => alert('Funcionalidad de edición próximamente')}
+                                                onClick={() => navigate(`/detalle-curso/${curso.id}`)}
                                             >
-                                                Editar
+                                                Gestionar
                                             </button>
                                             <button 
                                                 className={Style.deleteBtn}

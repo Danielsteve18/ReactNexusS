@@ -53,6 +53,29 @@ export const getCursos = async () => {
   }
 };
 
+// Obtener curso por ID
+export const getCursoById = async (cursoId) => {
+  try {
+    const cursoRef = doc(db, 'cursos', cursoId);
+    const cursoSnap = await getDoc(cursoRef);
+    
+    if (cursoSnap.exists()) {
+      return { 
+        success: true, 
+        data: {
+          id: cursoSnap.id,
+          ...cursoSnap.data()
+        }
+      };
+    } else {
+      return { success: false, error: 'Curso no encontrado' };
+    }
+  } catch (error) {
+    console.error("Error obteniendo curso:", error);
+    return { success: false, error: error.message };
+  }
+};
+
 // Obtener cursos del profesor
 export const getCursosByProfesor = async (profesorId) => {
   try {

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Style from "./shared.module.css";
 import { Barra_Left } from "../../../components/indexC";
 import { 
@@ -8,16 +9,10 @@ import {
 } from "../../../firebase/services/cursos";
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/config';
-
-const studentItems = [
-    { href: "/view-new-course", content: "Nuevo Curso" },
-    { href: "/view-foro", content: "Foros" },
-    { href: "/view-config", content: "Configuraciones" },
-    { href: "/view-activity", content: "Actividad" },
-    { href: "/view-convocatorias", content: "Convocatorias" },
-];
+import { studentMenuItems } from '../../../utils/menuItems';
 
 function NewCourse() {
+    const navigate = useNavigate();
     const [cursos, setCursos] = useState([]);
     const [misCursos, setMisCursos] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -99,7 +94,7 @@ function NewCourse() {
 
     return (
         <div className={Style.container}>
-            <Barra_Left items={studentItems} />
+            <Barra_Left items={studentMenuItems} />
             
             <div className={Style.content}>
                 <div className={Style.header}>
@@ -217,20 +212,29 @@ function NewCourse() {
                                     </div>
                                     
                                     <div className={Style.cardActions}>
-                                        <button 
-                                            className={Style.viewBtn}
-                                            onClick={() => setSelectedCurso(curso)}
-                                        >
-                                            Ver más
-                                        </button>
-                                        
-                                        {!isInscrito(curso.id) && (
+                                        {isInscrito(curso.id) ? (
                                             <button 
-                                                className={Style.inscribirBtn}
-                                                onClick={() => handleInscribir(curso.id)}
+                                                className={Style.primaryBtn}
+                                                onClick={() => navigate(`/detalle-curso/${curso.id}`)}
+                                                style={{ flex: 1 }}
                                             >
-                                                Inscribirse
+                                                Ir al curso
                                             </button>
+                                        ) : (
+                                            <>
+                                                <button 
+                                                    className={Style.viewBtn}
+                                                    onClick={() => setSelectedCurso(curso)}
+                                                >
+                                                    Ver más
+                                                </button>
+                                                <button 
+                                                    className={Style.inscribirBtn}
+                                                    onClick={() => handleInscribir(curso.id)}
+                                                >
+                                                    Inscribirse
+                                                </button>
+                                            </>
                                         )}
                                     </div>
                                 </div>

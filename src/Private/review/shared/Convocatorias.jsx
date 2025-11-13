@@ -7,12 +7,14 @@ import {
     getConvocatoriasByProfesor,
     updateConvocatoria,
     deleteConvocatoria,
-    incrementViews
+    incrementViews,
+    cerrarYCrearCurso
 } from "../../../firebase/services/convocatorias";
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/config';
 import ModalPostulacion from './ModalPostulacion';
 import ModalPostulantes from './ModalPostulantes';
+import { profesorMenuItems, studentMenuItems } from '../../../utils/menuItems';
 
 function Convocatorias() {
     const [userRole, setUserRole] = useState('');
@@ -129,6 +131,27 @@ function Convocatorias() {
         }
     };
 
+    const handleCrearCurso = async (convocatoria) => {
+        const aceptados = convocatoria.postulantes?.filter(p => p.estado === 'aceptado') || [];
+        
+        if (aceptados.length === 0) {
+            alert('No hay estudiantes aceptados para crear el curso. Debes aceptar al menos un postulante.');
+            return;
+        }
+
+        const mensaje = `¿Crear curso "${convocatoria.titulo}" con ${aceptados.length} estudiante(s) aceptado(s)?\n\nEsta acción cerrará la convocatoria y creará el curso automáticamente.`;
+        
+        if (window.confirm(mensaje)) {
+            const result = await cerrarYCrearCurso(convocatoria.id);
+            if (result.success) {
+                alert(`Curso creado exitosamente con ${aceptados.length} estudiante(s)`);
+                loadConvocatorias(userRole, userId);
+            } else {
+                alert('Error al crear curso: ' + result.error);
+            }
+        }
+    };
+
     const handleViewConvocatoria = async (convocatoria) => {
         setSelectedConvocatoria(convocatoria);
         if (userRole === 'student') {
@@ -200,20 +223,7 @@ function Convocatorias() {
         });
     };
 
-    const menuItems = userRole === 'profesor' ? [
-        { href: "/view-foro", content: "Foros" },
-        { href: "/view-config", content: "Configuraciones" },
-        { href: "/view-activity", content: "Actividad" },
-        { href: "/view-convocatorias", content: "Convocatorias" },
-        { href: "/clean-convocatorias", content: "Limpiar Datos" },
-        { href: "/view-aVirtual", content: "Aula Virtual" },
-    ] : [
-        { href: "/view-new-course", content: "Nuevo Curso" },
-        { href: "/view-foro", content: "Foros" },
-        { href: "/view-config", content: "Configuraciones" },
-        { href: "/view-activity", content: "Actividad" },
-        { href: "/view-convocatorias", content: "Convocatorias" },
-    ];
+    const menuItems = userRole === 'profesor' ? profesorMenuItems : studentMenuItems;
 
     return (
         <div className={Style.container}>
@@ -333,13 +343,6 @@ function Convocatorias() {
                                             </button>
                                         )}
                                         
-                                        <button 
-                                            className={Style.viewBtn}
-                                            onClick={() => handleViewConvocatoria(conv)}
-                                        >
-                                            Ver detalles
-                                        </button>
-                                        
                                         {userRole === 'profesor' && (
                                             <>
                                                 <button 
@@ -375,12 +378,18 @@ function Convocatorias() {
                                                     )}
                                                 </button>
                                                 <button 
-                                                    className={Style.deleteBtn}
-                                                    onClick={() => handleDelete(conv.id)}
+                                                    className={Style.primaryBtn}
+                                                    onClick={() => handleCrearCurso(conv)}
+                                                    style={{
+                                                        background: '#10b981',
+                                                        minWidth: '120px'
+                                                    }}
+                                                    title="Crear curso con estudiantes aceptados"
                                                 >
                                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                                        <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke="currentColor" strokeWidth="2"/>
+                                                        <path d="M12 4.5v15m7.5-7.5h-15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                                                     </svg>
+                                                    Crear Curso
                                                 </button>
                                             </>
                                         )}

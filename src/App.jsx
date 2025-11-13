@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, {Suspense} from "react";
-import {Loading} from "./components/indexC"
+import {Loading, ProfileNotification} from "./components/indexC"
 import { Home, Login,Register,Rol, NotFound } from "./view/index_view";
-import { Estudents,Teachers, Foro, A_virtual, Config, Activity, Convocatorias, NewCourse, GestionCursos } from "./Private/indexPivate";
+import { Estudents,Teachers, Foro, AulaVirtual, Config, Activity, Convocatorias, NewCourse, GestionCursos, DetalleCurso } from "./Private/indexPivate";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CleanConvocatorias from "./utils/cleanConvocatorias";
 
@@ -17,6 +17,7 @@ const Rendering = React.lazy(() => import('./components/C_meta/meta')); //Pagina
 const App = () => {
   return (
     <Router>
+    <ProfileNotification />
     <Suspense fallback={
       <Loading />
       }>
@@ -74,10 +75,10 @@ const App = () => {
 
         {/* Ruta para la página de gestión de Aulas virtuales */}
         <Route 
-          path="/view-aVirtual" 
+          path="/aula-virtual" 
           element={
             <ProtectedRoute requiredRole="profesor">
-              <A_virtual />
+              <AulaVirtual />
             </ProtectedRoute>
           } 
         />
@@ -128,6 +129,16 @@ const App = () => {
           element={
             <ProtectedRoute requiredRole="profesor">
               <GestionCursos />
+            </ProtectedRoute>
+          } 
+        />
+
+        {/* Ruta para detalle de curso (profesores y estudiantes) */}
+        <Route 
+          path="/detalle-curso/:cursoId" 
+          element={
+            <ProtectedRoute>
+              <DetalleCurso />
             </ProtectedRoute>
           } 
         />
