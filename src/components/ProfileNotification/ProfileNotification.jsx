@@ -11,11 +11,30 @@ function ProfileNotification() {
     const [dismissed, setDismissed] = useState(false);
 
     useEffect(() => {
-        // Rutas donde NO debe aparecer la notificación
+        // Rutas públicas donde NO debe aparecer la notificación
         const excludedRoutes = ['/', '/login-form', '/register-form', '/view-rol'];
         
+        // Rutas privadas conocidas (para detectar 404)
+        const knownPrivateRoutes = [
+            '/view-students', '/view-teachers', '/view-foro', '/aula-virtual',
+            '/view-config', '/view-activity', '/view-convocatorias', 
+            '/view-new-course', '/view-cursos', '/clean-convocatorias', '/tester'
+        ];
+        
+        const currentPath = location.pathname;
+        
         // Si estamos en una ruta excluida, no mostrar notificación
-        if (excludedRoutes.includes(location.pathname)) {
+        if (excludedRoutes.includes(currentPath)) {
+            setShow(false);
+            return;
+        }
+        
+        // Si es una ruta desconocida (404), no mostrar notificación
+        const isKnownRoute = knownPrivateRoutes.some(route => 
+            currentPath === route || currentPath.startsWith('/detalle-curso/')
+        );
+        
+        if (!isKnownRoute) {
             setShow(false);
             return;
         }
