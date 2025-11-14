@@ -4,16 +4,7 @@ import { db } from '../firebase/config';
 import { Barra_Left } from '../components/indexC';
 import Style from '../Private/review/shared/shared.module.css';
 import { getConvocatorias } from '../firebase/services/convocatorias';
-
-const profesorItems = [
-    { href: "/view-foro", content: "Foros" },
-    { href: "/view-config", content: "Configuraciones" },
-    { href: "/view-activity", content: "Actividad" },
-    { href: "/view-convocatorias", content: "Convocatorias" },
-    { href: "/clean-convocatorias", content: "Limpiar Datos" },
-    { href: "/view-cursos", content: "Mis Cursos" },
-    { href: "/view-aVirtual", content: "Aula Virtual" },
-];
+import { profesorMenuItems } from './menuItems';
 
 function CleanConvocatorias() {
     const [loading, setLoading] = useState(false);
@@ -118,7 +109,7 @@ function CleanConvocatorias() {
 
     return (
         <div className={Style.container}>
-            <Barra_Left items={profesorItems} />
+            <Barra_Left items={profesorMenuItems} />
             
             <div className={Style.content}>
                 <div className={Style.header}>

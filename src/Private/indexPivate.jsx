@@ -10,7 +10,7 @@ import { lazy } from 'react';
         
         // Métodos del profesor
         const Foro = lazy(() => import('./review/teacher/methods/foro/foro')); // Gestión de foros
-        const A_virtual = lazy(() => import('./review/teacher/methods/aula_virtual/aula')); // Gestión de aulas
+        const AulaVirtual = lazy(() => import('./review/teacher/AulaVirtual')); // Gestión de aulas virtuales
         const Config = lazy(() => import('./review/teacher/methods/config/configT')); // Gestión de configuración
         //fin metodos del profesor
 
@@ -21,18 +21,20 @@ import { lazy } from 'react';
     const Convocatorias = lazy(() => import('./review/shared/Convocatorias')); // Convocatorias
     const NewCourse = lazy(() => import('./review/shared/NewCourse')); // Nuevo Curso
     const GestionCursos = lazy(() => import('./review/teacher/GestionCursos')); // Gestión de cursos (profesor)
+    const DetalleCurso = lazy(() => import('./review/shared/DetalleCurso')); // Detalle del curso
 
 // Exportaciones
 export {
     Estudents,
     Teachers,
     Foro,
-    A_virtual,
+    AulaVirtual,
     Config,
     Activity,
     Convocatorias,
     NewCourse,
-    GestionCursos
+    GestionCursos,
+    DetalleCurso
 };
 
 
