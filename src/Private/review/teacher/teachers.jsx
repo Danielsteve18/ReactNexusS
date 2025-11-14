@@ -3,39 +3,7 @@ import Style from "./teacher.module.css";
 import {Barra_Left} from "../../../components/indexC";
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/config';
-
-const teacherItems = [
-    {
-        href: "/view-foro",
-        src: "./icons/foro.svg",
-        content: "Foros",
-    },
-    {
-        href: "/view-config",
-        src: "./icons/config.svg",
-        content: "Configuraciones",
-    },
-    {
-        href: "/view-activity",
-        src: "./icons/activity.svg",
-        content: "Actividad",
-    },
-    {
-        href: "/view-convocatorias",
-        src: "./icons/convocatorias.svg",
-        content: "Convocatorias",
-    },
-    {
-        href: "/clean-convocatorias",
-        src: "./icons/clean.svg",
-        content: "Limpiar Datos",
-    },
-    {
-        href: "/view-aVirtual",
-        src: "./icons/open.svg",
-        content: "Aula Virtual",
-    },
-];
+import { profesorMenuItems } from '../../../utils/menuItems';
 
 function Teachers () {
     const [userName, setUserName] = useState('Cargando...');
@@ -68,7 +36,7 @@ function Teachers () {
     
     return(
         <div className={Style.bodyTeachers}>
-            <Barra_Left items={teacherItems}/>
+            <Barra_Left items={profesorMenuItems}/>
             
             {/* Hero Section con Bienvenida */}
             <div className={Style.heroSection}>

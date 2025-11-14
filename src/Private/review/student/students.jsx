@@ -3,34 +3,7 @@ import Style from "../student/students.module.css";
 import {Barra_Left} from "../../../components/indexC";
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../../firebase/config';
-
-const studentItems = [
-    {
-        href: "/view-new-course",
-        src: "./icons/course.svg",
-        content: "Nuevo Curso",
-    },
-    {
-        href: "/view-foro",
-        src: "./icons/foro.svg",
-        content: "Foros",
-    },
-    {
-        href: "/view-config",
-        src: "./icons/config.svg",
-        content: "Configuraciones",
-    },
-    {
-        href: "/view-activity",
-        src: "./icons/activity.svg",
-        content: "Actividad",
-    },
-    {
-        href: "/view-convocatorias",
-        src: "./icons/convocatorias.svg",
-        content: "Convocatorias",
-    },
-];
+import { studentMenuItems } from '../../../utils/menuItems';
    
 function Estudents(){
     const [userName, setUserName] = useState('Cargando...');
@@ -63,7 +36,7 @@ function Estudents(){
 
     return (
         <div className={Style.bodyEstudents}>
-            <Barra_Left items={studentItems}/>
+            <Barra_Left items={studentMenuItems}/>
             
             {/* Hero Section con Bienvenida */}
             <div className={Style.heroSection}>

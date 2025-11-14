@@ -1,19 +1,23 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getUserData, updateUserData } from "../../../../../firebase/services/users";
 import Style from "../config/config.module.css";
 
 function Configuracion() {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState("account");
   const [userRole, setUserRole] = useState("");
+  const [userId, setUserId] = useState("");
   const [profileImage, setProfileImage] = useState("https://via.placeholder.com/150");
+  const [loading, setLoading] = useState(false);
+  const [saveMessage, setSaveMessage] = useState("");
   
   // Form states
   const [accountData, setAccountData] = useState({
-    nombre: "",
+    name: "",
     email: "",
     telefono: "",
-    biografia: ""
+    bio: ""
   });
   
   const [passwordData, setPasswordData] = useState({
@@ -34,7 +38,14 @@ function Configuracion() {
 
   useEffect(() => {
     const role = localStorage.getItem("userRole");
+    const id = localStorage.getItem("userId");
     setUserRole(role);
+    setUserId(id);
+    
+    // Cargar datos del usuario
+    if (id) {
+      loadUserData(id);
+    }
     
     // Cargar tema guardado
     const savedTheme = localStorage.getItem("theme") || "dark";
@@ -46,6 +57,19 @@ function Configuracion() {
     setFontSize(parseInt(savedFontSize));
     document.documentElement.style.fontSize = `${savedFontSize}px`;
   }, []);
+
+  const loadUserData = async (id) => {
+    const result = await getUserData(id);
+    if (result.success) {
+      const user = result.data;
+      setAccountData({
+        name: user.name || "",
+        email: user.email || "",
+        telefono: user.telefono || "",
+        bio: user.bio || ""
+      });
+    }
+  };
 
   const handleBack = () => {
     if (userRole === "profesor") {
@@ -87,9 +111,32 @@ function Configuracion() {
     });
   };
 
-  const handleSaveAccount = () => {
-    console.log("Guardando datos de cuenta:", accountData);
-    alert("Información actualizada correctamente");
+  const handleSaveAccount = async () => {
+    // Validar campos requeridos
+    if (!accountData.name || !accountData.telefono || !accountData.bio) {
+      setSaveMessage("⚠️ Por favor completa todos los campos requeridos (Nombre, Teléfono, Biografía)");
+      setTimeout(() => setSaveMessage(""), 4000);
+      return;
+    }
+
+    setLoading(true);
+    const result = await updateUserData(userId, {
+      name: accountData.name,
+      email: accountData.email,
+      telefono: accountData.telefono,
+      bio: accountData.bio
+    });
+
+    setLoading(false);
+    if (result.success) {
+      setSaveMessage("✅ Información actualizada correctamente");
+      // Limpiar sesión storage de notificación
+      sessionStorage.removeItem('profileNotificationDismissed');
+    } else {
+      setSaveMessage("❌ Error al actualizar: " + result.error);
+    }
+    
+    setTimeout(() => setSaveMessage(""), 4000);
   };
 
   const handleChangePassword = () => {
@@ -220,13 +267,14 @@ function Configuracion() {
               </div>
 
               <div className={Style.form_group}>
-                <label>Nombre completo</label>
+                <label>Nombre completo <span style={{color: '#ef4444'}}>*</span></label>
                 <input
                   type="text"
-                  name="nombre"
-                  value={accountData.nombre}
+                  name="name"
+                  value={accountData.name}
                   onChange={handleAccountChange}
                   placeholder="Tu nombre completo"
+                  required
                 />
               </div>
 
@@ -238,36 +286,81 @@ function Configuracion() {
                   value={accountData.email}
                   onChange={handleAccountChange}
                   placeholder="tu@email.com"
+                  disabled
+                  style={{ background: '#f5f5f5', cursor: 'not-allowed' }}
                 />
+                <small style={{ color: '#666', fontSize: '0.85rem' }}>
+                  El correo no se puede modificar
+                </small>
               </div>
 
               <div className={Style.form_group}>
-                <label>Teléfono</label>
+                <label>Teléfono <span style={{color: '#ef4444'}}>*</span></label>
                 <input
                   type="tel"
                   name="telefono"
                   value={accountData.telefono}
                   onChange={handleAccountChange}
                   placeholder="+57 300 123 4567"
+                  required
                 />
               </div>
 
               <div className={Style.form_group}>
-                <label>Biografía</label>
+                <label>Biografía / Descripción <span style={{color: '#ef4444'}}>*</span></label>
                 <textarea
-                  name="biografia"
-                  value={accountData.biografia}
+                  name="bio"
+                  value={accountData.bio}
                   onChange={handleAccountChange}
-                  placeholder="Cuéntanos sobre ti..."
+                  placeholder="Cuéntanos sobre ti, tus intereses, experiencia..."
                   rows="4"
+                  required
                 />
+                <small style={{ color: '#666', fontSize: '0.85rem' }}>
+                  Mínimo 20 caracteres
+                </small>
               </div>
 
-              <button className={Style.save_button} onClick={handleSaveAccount}>
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-                Guardar cambios
+              {saveMessage && (
+                <div style={{
+                  padding: '12px',
+                  borderRadius: '8px',
+                  background: saveMessage.includes('✅') ? '#d1fae5' : 
+                             saveMessage.includes('⚠️') ? '#fef3c7' : '#fee2e2',
+                  color: saveMessage.includes('✅') ? '#065f46' : 
+                         saveMessage.includes('⚠️') ? '#92400e' : '#991b1b',
+                  marginBottom: '15px',
+                  fontSize: '0.95rem'
+                }}>
+                  {saveMessage}
+                </div>
+              )}
+
+              <button 
+                className={Style.save_button} 
+                onClick={handleSaveAccount}
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <div style={{ 
+                      width: '18px', 
+                      height: '18px', 
+                      border: '2px solid white',
+                      borderTopColor: 'transparent',
+                      borderRadius: '50%',
+                      animation: 'spin 0.8s linear infinite'
+                    }}></div>
+                    Guardando...
+                  </>
+                ) : (
+                  <>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    Guardar cambios
+                  </>
+                )}
               </button>
             </div>
           )}
