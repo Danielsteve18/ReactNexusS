@@ -299,8 +299,8 @@ function Convocatorias() {
                                     {userRole === 'profesor' && (
                                         <div className={Style.stats}>
                                             <span>👁️ {conv.views || 0} vistas</span>
-                                            <span>� {conv.postulantes?.length || 0} postulantes</span>
-                                            <span>�📅 {formatDate(conv.createdAt)}</span>
+                                            <span>👥 {conv.postulantes?.length || 0} postulantes</span>
+                                            <span>📅 {formatDate(conv.createdAt)}</span>
                                         </div>
                                     )}
                                     
