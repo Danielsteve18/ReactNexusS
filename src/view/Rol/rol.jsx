@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { saveUserRole } from "./JS_Rol";
 import Style from "./rol.module.css";
+import RolT from '../../assets/imgRol/RolT.png';
+import RolE from '../../assets/imgRol/RolE.png';
 
 function Rol() {
     const navigate = useNavigate();
@@ -64,7 +66,7 @@ function Rol() {
                 <div className={Style.role_selection}>
                     <div className={Style.Rt}>
                         <label>
-                            <img src="/src/assets/imgRol/RolT.png" alt="Profesor" id="profesor" />
+                            <img src={RolT} alt="Profesor" id="profesor" />
                             <div className={Style.inputsRol}>
                                 <input
                                     className={Style.radio_input}
@@ -99,7 +101,7 @@ function Rol() {
                     </div>
                     <div className={Style.Rt}>
                         <label>
-                            <img src="/src/assets/imgRol/RolE.png" alt="Estudiante" id="estudiante" />
+                            <img src={RolE} alt="Estudiante" id="estudiante" />
                             <div className={Style.inputsRol}>
                                 <input
                                     className={Style.radio_input}
