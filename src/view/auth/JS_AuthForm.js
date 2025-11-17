@@ -1,20 +1,20 @@
-锘縤mport { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from "../../../firebase/config";
+import { auth, db } from "../../firebase/config";
 
 //transicion Form
         
         
 //fin Trs Form
-// Manejo del inicio de sesi贸n
-export const AuthFormlog= async({correo, contrase帽a}) =>{
+// Manejo del inicio de sesi髇
+export const AuthFormlog= async({correo, contrase馻}) =>{
 
     const email = correo;
-    const password = contrase帽a;
+    const password = contrase馻;
 
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        console.log("Inicio de sesi贸n exitoso");
+        console.log("Inicio de sesi髇 exitoso");
 
         // Verificar si ya tiene un rol asignado
         const user = userCredential.user;
@@ -28,41 +28,42 @@ export const AuthFormlog= async({correo, contrase帽a}) =>{
             localStorage.setItem('userRole', role);
             localStorage.setItem('userId', user.uid);
             
-            // Redirigir seg煤n el rol
+            // Redirigir seg鷑 el rol
             if (role === "profesor") {
                 window.location.href = '/view-teachers';
             } else if (role === "student") {
                 window.location.href = '/view-students';
             }
         } else {
-            // Si no tiene rol, redirigir a la p谩gina de selecci贸n de roles
+            // Si no tiene rol, redirigir a la p醙ina de selecci髇 de roles
             localStorage.setItem('userId', user.uid);
             window.location.href = '/view-rol';
         }
     } catch (error) {
         const errorCode = error.code;
         if (errorCode === 'auth/wrong-password') {
-            alert('Contrase帽a incorrecta');
+            alert('Contrase馻 incorrecta');
         } else if (errorCode === 'auth/user-not-found') {
             alert('Usuario no encontrado');
         } else if (errorCode === 'auth/invalid-email') {
-            alert('Correo no es v谩lido');
+            alert('Correo no es v醠ido');
         } else {
             alert('Error: ' + error.message);
         }
     }
 };
 /*
-// Cerrar sesi贸n
+// Cerrar sesi髇
 document.getElementById('cerrar').addEventListener('click', async (e) => {
-    e.preventDefault();  // Prevenir el env铆o del formulario
+    e.preventDefault();  // Prevenir el env韔 del formulario
 
     try {
         await signOut(auth);
-        alert("Cierre de sesi贸n exitoso");
-        window.location.href = "/login.html";  // Redirigir al login despu茅s de cerrar sesi贸n
+        alert("Cierre de sesi髇 exitoso");
+        window.location.href = "/login.html";  // Redirigir al login despu閟 de cerrar sesi髇
     } catch (error) {
-        alert('Error al cerrar sesi贸n: ' + error.message);
+        alert('Error al cerrar sesi髇: ' + error.message);
     }
 });
 */
+
