@@ -1,9 +1,9 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/firebase/config";
 
-export const registerUser = async ({nombre, correo, contrase�a}) => {
+export const registerUser = async ({nombre, correo, contraseña}) => {
     try {
-        const userCredential = await createUserWithEmailAndPassword(auth, correo, contrase�a);
+        const userCredential = await createUserWithEmailAndPassword(auth, correo, contraseña);
         localStorage.setItem("nombre", nombre);
         localStorage.setItem("userId", userCredential.user.uid);
         console.log("Usuario registrado exitosamente:", userCredential.user);
@@ -20,19 +20,19 @@ export const registerUser = async ({nombre, correo, contrase�a}) => {
             return { 
                 success: false, 
                 error: 'email-already-in-use',
-                message: 'Este correo ya est� registrado. Intenta iniciar sesi�n.'
+                message: 'Este correo ya está registrado. Intenta iniciar sesión.'
             };
         } else if (errorCode === 'auth/weak-password') {
             return { 
                 success: false, 
                 error: 'weak-password',
-                message: 'La contrase�a debe tener al menos 6 caracteres.'
+                message: 'La contraseña debe tener al menos 6 caracteres.'
             };
         } else if (errorCode === 'auth/invalid-email') {
             return { 
                 success: false, 
                 error: 'invalid-email',
-                message: 'El formato del correo no es v�lido.'
+                message: 'El formato del correo no es válido.'
             };
         } else {
             return { 

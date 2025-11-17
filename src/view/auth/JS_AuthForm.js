@@ -6,15 +6,15 @@ import { auth, db } from "@/firebase/config";
         
         
 //fin Trs Form
-// Manejo del inicio de sesi�n
-export const AuthFormlog= async({correo, contrase�a}) =>{
+// Manejo del inicio de sesión
+export const AuthFormlog= async({correo, contraseña}) =>{
 
     const email = correo;
-    const password = contrase�a;
+    const password = contraseña;
 
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        console.log("Inicio de sesi�n exitoso");
+        console.log("Inicio de sesión exitoso");
 
         // Verificar si ya tiene un rol asignado
         const user = userCredential.user;
@@ -28,41 +28,41 @@ export const AuthFormlog= async({correo, contrase�a}) =>{
             localStorage.setItem('userRole', role);
             localStorage.setItem('userId', user.uid);
             
-            // Redirigir seg�n el rol
+            // Redirigir según el rol
             if (role === "profesor") {
                 window.location.href = '/view-teachers';
             } else if (role === "student") {
                 window.location.href = '/view-students';
             }
         } else {
-            // Si no tiene rol, redirigir a la p�gina de selecci�n de roles
+            // Si no tiene rol, redirigir a la página de selección de roles
             localStorage.setItem('userId', user.uid);
             window.location.href = '/view-rol';
         }
     } catch (error) {
         const errorCode = error.code;
         if (errorCode === 'auth/wrong-password') {
-            alert('Contrase�a incorrecta');
+            alert('Contraseña incorrecta');
         } else if (errorCode === 'auth/user-not-found') {
             alert('Usuario no encontrado');
         } else if (errorCode === 'auth/invalid-email') {
-            alert('Correo no es v�lido');
+            alert('Correo no es válido');
         } else {
             alert('Error: ' + error.message);
         }
     }
 };
 /*
-// Cerrar sesi�n
+// Cerrar sesión
 document.getElementById('cerrar').addEventListener('click', async (e) => {
-    e.preventDefault();  // Prevenir el env�o del formulario
+    e.preventDefault();  // Prevenir el envío del formulario
 
     try {
         await signOut(auth);
-        alert("Cierre de sesi�n exitoso");
-        window.location.href = "/login.html";  // Redirigir al login despu�s de cerrar sesi�n
+        alert("Cierre de sesión exitoso");
+        window.location.href = "/login.html";  // Redirigir al login después de cerrar sesión
     } catch (error) {
-        alert('Error al cerrar sesi�n: ' + error.message);
+        alert('Error al cerrar sesión: ' + error.message);
     }
 });
 */
