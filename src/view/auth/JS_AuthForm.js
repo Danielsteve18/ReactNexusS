@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from "../../firebase/config";
+import { auth, db } from "@/firebase/config";
 
 //transicion Form
         
@@ -66,4 +66,5 @@ document.getElementById('cerrar').addEventListener('click', async (e) => {
     }
 });
 */
+
 

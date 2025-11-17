@@ -4,7 +4,7 @@ import Style from "./shared.module.css";
 import { Barra_Left } from "../../../components/indexC";
 import { getCursoById, updateCurso } from "../../../firebase/services/cursos";
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase/config';
+import { db } from '@/firebase/config';
 import { profesorMenuItems, studentMenuItems } from '../../../utils/menuItems';
 import ModalEntregarTarea from './ModalEntregarTarea';
 import ModalRevisarEntregas from './ModalRevisarEntregas';
@@ -1048,3 +1048,4 @@ function DetalleCurso() {
 }
 
 export default DetalleCurso;
+

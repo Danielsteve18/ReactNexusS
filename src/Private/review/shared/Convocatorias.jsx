@@ -11,7 +11,7 @@ import {
     cerrarYCrearCurso
 } from "../../../firebase/services/convocatorias";
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase/config';
+import { db } from '@/firebase/config';
 import ModalPostulacion from './ModalPostulacion';
 import ModalPostulantes from './ModalPostulantes';
 import { profesorMenuItems, studentMenuItems } from '../../../utils/menuItems';
@@ -618,3 +618,4 @@ function Convocatorias() {
 }
 
 export default Convocatorias;
+

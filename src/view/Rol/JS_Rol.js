@@ -1,5 +1,5 @@
-﻿import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../../firebase/config";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "@/firebase/config";
 
 export const saveUserRole = async (role) => {
     try {
@@ -34,3 +34,4 @@ export const clearUserRole = () => {
     localStorage.removeItem('userRole');
     localStorage.removeItem('userId');
 };   
+

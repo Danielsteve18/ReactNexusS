@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import { db } from '@/firebase/config';
 import { Barra_Left } from '../components/indexC';
 import Style from '../Private/review/shared/shared.module.css';
 import { getConvocatorias } from '../firebase/services/convocatorias';
@@ -368,3 +368,4 @@ function CleanConvocatorias() {
 }
 
 export default CleanConvocatorias;
+

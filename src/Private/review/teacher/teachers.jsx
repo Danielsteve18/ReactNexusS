@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Style from "./teacher.module.css";
 import {Barra_Left} from "../../../components/indexC";
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase/config';
+import { db } from '@/firebase/config';
 import { profesorMenuItems } from '../../../utils/menuItems';
 
 function Teachers () {
