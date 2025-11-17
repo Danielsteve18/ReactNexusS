@@ -1,21 +1,5 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyB0gh9Hq5JXTEmeqvsJHLVQULdH1W7YffM",
-    authDomain: "nexus-5c53d.firebaseapp.com",
-    projectId: "nexus-5c53d",
-    storageBucket: "nexus-5c53d.appspot.com",
-    messagingSenderId: "208164583979",
-    appId: "1:208164583979:web:8fd62a5c315fe50ad7486e",
-    measurementId: "G-WENGRWS7N9"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+﻿import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase/config";
 
 export const saveUserRole = async (role) => {
     try {
