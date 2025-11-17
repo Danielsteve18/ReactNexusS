@@ -11,7 +11,7 @@ import {
     cerrarYCrearCurso
 } from "../../../firebase/services/convocatorias";
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase/config';
+import { db } from '@/firebase/config';
 import ModalPostulacion from './ModalPostulacion';
 import ModalPostulantes from './ModalPostulantes';
 import { profesorMenuItems, studentMenuItems } from '../../../utils/menuItems';
@@ -299,8 +299,8 @@ function Convocatorias() {
                                     {userRole === 'profesor' && (
                                         <div className={Style.stats}>
                                             <span>👁️ {conv.views || 0} vistas</span>
-                                            <span>� {conv.postulantes?.length || 0} postulantes</span>
-                                            <span>�📅 {formatDate(conv.createdAt)}</span>
+                                            <span>👥 {conv.postulantes?.length || 0} postulantes</span>
+                                            <span>📅 {formatDate(conv.createdAt)}</span>
                                         </div>
                                     )}
                                     
@@ -618,3 +618,4 @@ function Convocatorias() {
 }
 
 export default Convocatorias;
+

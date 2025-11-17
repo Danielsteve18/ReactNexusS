@@ -8,7 +8,7 @@ import {
     inscribirEstudiante 
 } from "../../../firebase/services/cursos";
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase/config';
+import { db } from '@/firebase/config';
 import { studentMenuItems } from '../../../utils/menuItems';
 
 function NewCourse() {
@@ -347,3 +347,4 @@ function NewCourse() {
 }
 
 export default NewCourse;
+

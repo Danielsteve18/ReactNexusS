@@ -9,7 +9,7 @@ import {
     deleteCurso
 } from "../../../firebase/services/cursos";
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase/config';
+import { db } from '@/firebase/config';
 import { profesorMenuItems } from '../../../utils/menuItems';
 
 function GestionCursos() {
@@ -358,3 +358,4 @@ function GestionCursos() {
 }
 
 export default GestionCursos;
+

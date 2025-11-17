@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Style from "../student/students.module.css";
 import {Barra_Left} from "../../../components/indexC";
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../firebase/config';
+import { db } from '@/firebase/config';
 import { studentMenuItems } from '../../../utils/menuItems';
    
 function Estudents(){

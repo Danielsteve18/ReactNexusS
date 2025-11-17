@@ -10,7 +10,7 @@ import {
     deleteMensaje
 } from "../../../../../firebase/services/foros";
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../../../../firebase/config';
+import { db } from '@/firebase/config';
 
 function Foro() {
     const navigate = useNavigate();
@@ -404,3 +404,4 @@ function Foro() {
 }
 
 export default Foro;
+
